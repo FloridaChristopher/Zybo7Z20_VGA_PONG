@@ -17,7 +17,7 @@ proc create_report { reportName command } {
   }
 }
 namespace eval ::optrace {
-  variable script "C:/Users/Chris/Downloads/Zybo-Z7-20-Pmod-VGA-2018.2-1/vivado_proj/Zybo-Z7-20-Pmod-VGA.runs/impl_1/top.tcl"
+  variable script "E:/Github/Zybo7Z20_VGA_PONG/Zybo-Z7-20-Pmod-VGA.runs/impl_1/top.tcl"
   variable category "vivado_impl"
 }
 
@@ -115,7 +115,6 @@ proc step_failed { step } {
 OPTRACE "impl_1" END { }
 }
 
-set_msg_config -id {Common 17-41} -limit 10000000
 
 OPTRACE "impl_1" START { ROLLUP_1 }
 OPTRACE "Phase: Init Design" START { ROLLUP_AUTO }
@@ -127,25 +126,25 @@ set rc [catch {
   set_param xicom.use_bs_reader 1
 OPTRACE "create in-memory project" START { }
   create_project -in_memory -part xc7z020clg400-1
-  set_property board_part_repo_paths {C:/Users/Chris/Downloads/Zybo-Z7-20-Pmod-VGA-2018.2-1/vivado_proj/Zybo-Z7-20-Pmod-VGA.board} [current_project]
+  set_property board_part_repo_paths {E:/Github/Zybo7Z20_VGA_PONG/Zybo-Z7-20-Pmod-VGA.board} [current_project]
   set_property board_part digilentinc.com:zybo-z7-20:part0:1.0 [current_project]
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
 OPTRACE "set parameters" START { }
-  set_property webtalk.parent_dir C:/Users/Chris/Downloads/Zybo-Z7-20-Pmod-VGA-2018.2-1/vivado_proj/Zybo-Z7-20-Pmod-VGA.cache/wt [current_project]
-  set_property parent.project_path C:/Users/Chris/Downloads/Zybo-Z7-20-Pmod-VGA-2018.2-1/vivado_proj/Zybo-Z7-20-Pmod-VGA.xpr [current_project]
+  set_property webtalk.parent_dir E:/Github/Zybo7Z20_VGA_PONG/Zybo-Z7-20-Pmod-VGA.cache/wt [current_project]
+  set_property parent.project_path E:/Github/Zybo7Z20_VGA_PONG/Zybo-Z7-20-Pmod-VGA.xpr [current_project]
   set_property ip_repo_paths D:/Github/Zybo-Z7-20-Pmod-VGA/repo [current_project]
   update_ip_catalog
-  set_property ip_output_repo C:/Users/Chris/Downloads/Zybo-Z7-20-Pmod-VGA-2018.2-1/vivado_proj/Zybo-Z7-20-Pmod-VGA.cache/ip [current_project]
+  set_property ip_output_repo E:/Github/Zybo7Z20_VGA_PONG/Zybo-Z7-20-Pmod-VGA.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
   set_property XPM_LIBRARIES XPM_CDC [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet C:/Users/Chris/Downloads/Zybo-Z7-20-Pmod-VGA-2018.2-1/vivado_proj/Zybo-Z7-20-Pmod-VGA.runs/synth_1/top.dcp
-  read_ip -quiet C:/Users/Chris/Downloads/Zybo-Z7-20-Pmod-VGA-2018.2-1/vivado_proj/Zybo-Z7-20-Pmod-VGA.srcs/clk_wiz_0/ip/clk_wiz_0/clk_wiz_0.xci
+  add_files -quiet E:/Github/Zybo7Z20_VGA_PONG/Zybo-Z7-20-Pmod-VGA.runs/synth_1/top.dcp
+  read_ip -quiet E:/Github/Zybo7Z20_VGA_PONG/Zybo-Z7-20-Pmod-VGA.srcs/clk_wiz_0/ip/clk_wiz_0/clk_wiz_0.xci
 OPTRACE "read constraints: implementation" START { }
-  read_xdc C:/Users/Chris/Downloads/Zybo-Z7-20-Pmod-VGA-2018.2-1/vivado_proj/Zybo-Z7-20-Pmod-VGA.srcs/constrs_1/imports/constraints/Zybo-Z7-Master.xdc
+  read_xdc E:/Github/Zybo7Z20_VGA_PONG/Zybo-Z7-20-Pmod-VGA.srcs/constrs_1/imports/constraints/Zybo-Z7-Master.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "add files" END { }
 OPTRACE "link_design" START { }

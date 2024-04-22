@@ -24,7 +24,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='C:/Users/Chris/Downloads/Zybo-Z7-20-Pmod-VGA-2018.2-1/vivado_proj/Zybo-Z7-20-Pmod-VGA.runs/impl_1'
+HD_PWD='E:/Github/Zybo7Z20_VGA_PONG/Zybo-Z7-20-Pmod-VGA.runs/impl_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log

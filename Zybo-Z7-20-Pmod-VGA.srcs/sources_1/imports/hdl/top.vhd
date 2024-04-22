@@ -262,12 +262,10 @@ clk_div_inst : clk_wiz_0
     end if;
   end process;
   
+-- Tried to swap the colors by flipping these bits. Didn't work, got weird static like effect instead.
   update_box <= '1' when box_cntr_reg = (BOX_CLK_DIV - 1) else
                 '0';
-                
---  pixel_in_box <= '1' when (((h_cntr_reg >= box_x_reg) and (h_cntr_reg < (box_x_reg + BOX_WIDTH))) and
---                            ((v_cntr_reg >= box_y_reg) and (v_cntr_reg < (box_y_reg + BOX_WIDTH)))) else
---                  '0';
+
   pixel_in_box <= '1' when (((h_cntr_reg >= box_x_reg) and (h_cntr_reg < (box_x_reg + BOX_WIDTH))) and
                             ((v_cntr_reg >= box_y_reg) and (v_cntr_reg < (box_y_reg + BOX_WIDTH)))) else
                   '0';           
