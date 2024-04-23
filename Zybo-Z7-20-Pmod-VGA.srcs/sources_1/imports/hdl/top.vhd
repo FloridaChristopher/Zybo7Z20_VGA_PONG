@@ -198,6 +198,8 @@ clk_div_inst : clk_wiz_0
 --              (others=>'1')           when (active = '1' and ((not(h_cntr_reg < 512) and (v_cntr_reg(8) = '1' and h_cntr_reg(3) = '1')) or
 --                                            (not(h_cntr_reg < 512) and (v_cntr_reg(8) = '0' and v_cntr_reg(3) = '1')))) else
 --              (others=>'0');
+
+
    vga_red <= h_cntr_reg(5 downto 2) when (active = '1' and ((h_cntr_reg < FRAME_WIDTH and v_cntr_reg < 0) and h_cntr_reg(8) = '1')) else
               (others=>'1')         when (active = '1' and ((h_cntr_reg < FRAME_WIDTH and not(v_cntr_reg < 0)) and not(pixel_in_box = '1'))) else
               (others=>'1')         when (active = '1' and ((not(h_cntr_reg < FRAME_WIDTH) and (v_cntr_reg(8) = '1' and h_cntr_reg(3) = '1')) or
@@ -215,6 +217,7 @@ clk_div_inst : clk_wiz_0
               (others=>'1')           when (active = '1' and ((not(h_cntr_reg < FRAME_WIDTH) and (v_cntr_reg(8) = '1' and h_cntr_reg(3) = '1')) or
                                             (not(h_cntr_reg < FRAME_WIDTH) and (v_cntr_reg(8) = '0' and v_cntr_reg(3) = '1')))) else
               (others=>'0');
+
  
  ------------------------------------------------------
  -------         MOVING BOX LOGIC                ------

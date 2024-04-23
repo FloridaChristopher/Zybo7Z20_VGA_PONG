@@ -4,6 +4,8 @@
   <File Type="REPORTS-TCL" Name="clk_wiz_0_reports.tcl"/>
   <File Type="RDS-RDS" Name="clk_wiz_0.vds"/>
   <File Type="RDS-DCP" Name="clk_wiz_0.dcp"/>
+  <File Type="RDS-UTIL" Name="clk_wiz_0_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="clk_wiz_0_utilization_synth.pb"/>
   <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/clk_wiz_0">
     <File Path="$PSRCDIR/clk_wiz_0/ip/clk_wiz_0/clk_wiz_0.xci">
       <FileInfo>
