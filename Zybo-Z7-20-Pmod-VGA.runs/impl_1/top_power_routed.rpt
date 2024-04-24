@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date             : Mon Apr 22 18:47:31 2024
+| Date             : Wed Apr 24 19:33:16 2024
 | Host             : FlightSim2 running 64-bit major release  (build 9200)
 | Command          : report_power -file top_power_routed.rpt -pb top_power_summary_routed.pb -rpx top_power_routed.rpx
 | Design           : top
@@ -54,7 +54,7 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | Clocks         |     0.002 |        8 |       --- |             --- |
 | Slice Logic    |    <0.001 |      289 |       --- |             --- |
-|   LUT as Logic |    <0.001 |      122 |     53200 |            0.23 |
+|   LUT as Logic |    <0.001 |      121 |     53200 |            0.23 |
 |   CARRY4       |    <0.001 |       45 |     13300 |            0.34 |
 |   Register     |    <0.001 |       91 |    106400 |            0.09 |
 |   Others       |     0.000 |        4 |       --- |             --- |

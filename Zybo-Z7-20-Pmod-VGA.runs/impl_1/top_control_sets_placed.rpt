@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Mon Apr 22 18:47:03 2024
+| Date         : Wed Apr 24 19:32:47 2024
 | Host         : FlightSim2 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file top_control_sets_placed.rpt
 | Design       : top
@@ -58,7 +58,7 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              18 |            9 |
+| No           | No                    | No                     |              18 |            7 |
 | No           | No                    | Yes                    |               0 |            0 |
 | No           | Yes                   | No                     |              37 |           10 |
 | Yes          | No                    | No                     |              24 |            6 |
@@ -75,7 +75,7 @@ Table of Contents
 +-----------------------------+---------------+------------------+------------------+----------------+--------------+
 |  clk_div_inst/inst/clk_out1 |               | eqOp30_in        |                3 |             12 |         4.00 |
 |  clk_div_inst/inst/clk_out1 | eqOp30_in     | v_cntr_reg0      |                3 |             12 |         4.00 |
-|  clk_div_inst/inst/clk_out1 |               |                  |                9 |             18 |         2.00 |
+|  clk_div_inst/inst/clk_out1 |               |                  |                7 |             18 |         2.57 |
 |  clk_div_inst/inst/clk_out1 | eqOp          |                  |                6 |             24 |         4.00 |
 |  clk_div_inst/inst/clk_out1 |               | eqOp             |                7 |             25 |         3.57 |
 +-----------------------------+---------------+------------------+------------------+----------------+--------------+
