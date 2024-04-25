@@ -11,12 +11,11 @@
 -- Copyright Digilent 2017
 ----------------------------------------------------------------------------------
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_1164.all;
 use IEEE.std_logic_unsigned.all;
-
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -29,7 +28,8 @@ entity top is
            VGA_VS_O : out  STD_LOGIC;
            VGA_R : out  STD_LOGIC_VECTOR (3 downto 0);
            VGA_B : out  STD_LOGIC_VECTOR (3 downto 0);
-           VGA_G : out  STD_LOGIC_VECTOR (3 downto 0));
+           VGA_G : out  STD_LOGIC_VECTOR (3 downto 0);
+           testOutput : out STD_LOGIC_VECTOR (7 downto 0));
 end top;
 
 architecture Behavioral of top is
@@ -167,6 +167,10 @@ signal update_box : std_logic;
 signal pixel_in_box : std_logic;
 
 
+
+signal test_value : natural := 0;
+signal test_output : std_logic_vector(7 downto 0);
+
 begin
   
    
@@ -217,7 +221,7 @@ clk_div_inst : clk_wiz_0
               (others=>'1')           when (active = '1' and ((not(h_cntr_reg < FRAME_WIDTH) and (v_cntr_reg(8) = '1' and h_cntr_reg(3) = '1')) or
                                             (not(h_cntr_reg < FRAME_WIDTH) and (v_cntr_reg(8) = '0' and v_cntr_reg(3) = '1')))) else
               (others=>'0');
-
+ 
  
  ------------------------------------------------------
  -------         MOVING BOX LOGIC                ------
@@ -225,10 +229,20 @@ clk_div_inst : clk_wiz_0
   process (pxl_clk)
   begin
     if (rising_edge(pxl_clk)) then
+    
+    -- test
+    --test_value <= test_value  + 1;
+    
+    if test_output = 255 then
+        test_output <= (others => '0');
+    else
+        test_output <= test_output + 1;
+    end if;
+    
       if (update_box = '1') then
         if (box_x_dir = '1') then
           box_x_reg <= box_x_reg + 1;
-        else
+        else 
           box_x_reg <= box_x_reg - 1;
         end if;
         if (box_y_dir = '1') then
@@ -342,5 +356,5 @@ clk_div_inst : clk_wiz_0
   VGA_R <= vga_red_reg;
   VGA_G <= vga_green_reg;
   VGA_B <= vga_blue_reg;
-
+  testOutput <= test_output;
 end Behavioral;
