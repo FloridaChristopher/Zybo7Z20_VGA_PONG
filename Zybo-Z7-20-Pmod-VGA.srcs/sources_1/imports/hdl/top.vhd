@@ -169,7 +169,7 @@ signal pixel_in_box : std_logic;
 
 
 signal test_value : natural := 0;
-signal test_output : std_logic_vector(7 downto 0);
+signal test_output : std_logic_vector(7 downto 0) := (others =>'0');
 
 begin
   
@@ -348,6 +348,7 @@ clk_div_inst : clk_wiz_0
       vga_red_reg <= vga_red;
       vga_green_reg <= vga_green;
       vga_blue_reg <= vga_blue;
+      --testOutput <= test_output;
     end if;
   end process;
 
