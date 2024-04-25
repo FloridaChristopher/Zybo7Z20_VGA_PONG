@@ -34,7 +34,8 @@ entity top is
            LEDout : out STD_LOGIC_VECTOR (3 downto 0);
            --LEDbtnout : out STD_LOGIC_VECTOR (3 downto 0);
            sw : in  STD_LOGIC_VECTOR (3 downto 0);
-           btn : in  STD_LOGIC_VECTOR (3 downto 0));
+           btn : in  STD_LOGIC_VECTOR (3 downto 0);
+           eightseg_out : out STD_LOGIC_VECTOR (7 downto 0));
            
 end top;
 
@@ -186,7 +187,8 @@ signal paddle12_y_reg : std_logic_vector(11 downto 0) := x"100";
 signal paddle12_x_reg : std_logic_vector(11 downto 0) := x"610";
 
 
-signal P1_score : std_logic_vector(7 downto 0) := (others =>'0');
+signal P1_score : std_logic_vector(3 downto 0) := (others =>'0');
+signal P2_score : std_logic_vector(3 downto 0) := (others =>'0');
 
 signal test_value : natural := 0;
 signal test_output : std_logic_vector(7 downto 0) := (others =>'0');
@@ -253,8 +255,11 @@ clk_div_inst : clk_wiz_0
     -- test
     --test_value <= test_value  + 1;
       
-      LEDout <= sw;
-      --testOutput <= "0000" & sw;
+      --LEDout <= sw;
+      
+      
+      
+      --eightseg_out <= btn & sw;
 --    if test_output = 255 then
 --        test_output <= (others => '0');
 --    else
@@ -293,6 +298,10 @@ clk_div_inst : clk_wiz_0
     end if;
   end process;
   
+  
+  
+  
+  
   process (pxl_clk)
   begin
     if (rising_edge(pxl_clk)) then
@@ -306,18 +315,20 @@ clk_div_inst : clk_wiz_0
         
         if (box_x_dir = '0' and (box_x_reg = BOX_X_MIN + 1)) then -- left edge
           box_x_dir <= not(box_x_dir);
+          P2_score <= P2_score + 1; -- scoring logic
         end if;
         
         
-        if (box_x_dir = '1' and (box_x_reg = paddle1_x_reg + PADDLE_WIDTH - 1)) then -- paddle 1 right edge
+        if (box_x_dir = '0' and (box_x_reg = paddle1_x_reg + PADDLE_WIDTH - 1) and (box_y_reg < (paddle1_y_reg + PADDLE_HEIGHT))  and (box_y_reg > (paddle1_y_reg)) ) then -- paddle 1 right edge
             box_x_dir <= not(box_x_dir);
         end if;
         
-        if (box_x_dir = '0' and (box_x_reg = paddle12_x_reg + 1)) then -- left edge
+        if (box_x_dir = '1' and (box_x_reg = paddle12_x_reg - PADDLE_WIDTH + 1) and (box_y_reg < (paddle12_y_reg + PADDLE_HEIGHT)) and (box_y_reg > (paddle12_y_reg))  ) then -- paddle 2 left edge
           box_x_dir <= not(box_x_dir);
         end if;
         
-        testOutput <= P1_score;
+        testOutput <= P1_score & "0000";
+        LEDout <= P2_score;
         
         if ((box_y_dir = '1' and (box_y_reg = BOX_Y_MAX - 1)) or (box_y_dir = '0' and (box_y_reg = BOX_Y_MIN + 1))) then
           box_y_dir <= not(box_y_dir);
