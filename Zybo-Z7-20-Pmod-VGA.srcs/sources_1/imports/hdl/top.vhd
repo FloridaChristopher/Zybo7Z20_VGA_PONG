@@ -29,7 +29,13 @@ entity top is
            VGA_R : out  STD_LOGIC_VECTOR (3 downto 0);
            VGA_B : out  STD_LOGIC_VECTOR (3 downto 0);
            VGA_G : out  STD_LOGIC_VECTOR (3 downto 0);
-           testOutput : out STD_LOGIC_VECTOR (7 downto 0));
+           
+           testOutput : out STD_LOGIC_VECTOR (7 downto 0);
+           LEDout : out STD_LOGIC_VECTOR (3 downto 0);
+           --LEDbtnout : out STD_LOGIC_VECTOR (3 downto 0);
+           sw : in  STD_LOGIC_VECTOR (3 downto 0);
+           btn : in  STD_LOGIC_VECTOR (3 downto 0));
+           
 end top;
 
 architecture Behavioral of top is
@@ -122,7 +128,7 @@ constant H_POL : std_logic := '1';
 constant V_POL : std_logic := '1';
 
 --Moving Box constants
-constant BOX_WIDTH : natural := 8;
+constant BOX_WIDTH : natural := 16;
 constant BOX_CLK_DIV : natural := 1000000; --MAX=(2^25 - 1)
 
 --constant BOX_X_MAX : natural := (512 - BOX_WIDTH);
@@ -133,6 +139,9 @@ constant BOX_Y_MAX : natural := (FRAME_HEIGHT - BOX_WIDTH);
 constant BOX_X_MIN : natural := 0;
 --constant BOX_Y_MIN : natural := 256;
 constant BOX_Y_MIN : natural := 0;
+
+
+
 
 constant BOX_X_INIT : std_logic_vector(11 downto 0) := x"000";
 constant BOX_Y_INIT : std_logic_vector(11 downto 0) := x"190"; --400
@@ -166,7 +175,18 @@ signal box_cntr_reg : std_logic_vector(24 downto 0) := (others =>'0');
 signal update_box : std_logic;
 signal pixel_in_box : std_logic;
 
+signal pixel_in_paddle : std_logic;
+signal paddle1_y_reg : std_logic_vector(11 downto 0) := x"100";
+signal paddle1_x_reg : std_logic_vector(11 downto 0) := x"100";
+constant PADDLE_WIDTH : natural := 16;
+constant PADDLE_HEIGHT : natural := 90;
 
+signal pixel_in_paddle2 : std_logic;
+signal paddle12_y_reg : std_logic_vector(11 downto 0) := x"100";
+signal paddle12_x_reg : std_logic_vector(11 downto 0) := x"610";
+
+
+signal P1_score : std_logic_vector(7 downto 0) := (others =>'0');
 
 signal test_value : natural := 0;
 signal test_output : std_logic_vector(7 downto 0) := (others =>'0');
@@ -205,19 +225,19 @@ clk_div_inst : clk_wiz_0
 
 
    vga_red <= h_cntr_reg(5 downto 2) when (active = '1' and ((h_cntr_reg < FRAME_WIDTH and v_cntr_reg < 0) and h_cntr_reg(8) = '1')) else
-              (others=>'1')         when (active = '1' and ((h_cntr_reg < FRAME_WIDTH and not(v_cntr_reg < 0)) and not(pixel_in_box = '1'))) else
+              (others=>'1')         when (active = '1' and ((h_cntr_reg < FRAME_WIDTH and not(v_cntr_reg < 0)) and not(pixel_in_paddle = '1') and not(pixel_in_paddle2 = '1')  and not(pixel_in_box = '1'))) else
               (others=>'1')         when (active = '1' and ((not(h_cntr_reg < FRAME_WIDTH) and (v_cntr_reg(8) = '1' and h_cntr_reg(3) = '1')) or
                                           (not(h_cntr_reg < FRAME_WIDTH) and (v_cntr_reg(8) = '0' and v_cntr_reg(3) = '1')))) else
               (others=>'0');
                 
   vga_blue <= h_cntr_reg(5 downto 2) when (active = '1' and ((h_cntr_reg < FRAME_WIDTH and v_cntr_reg < 0) and  h_cntr_reg(6) = '1')) else
-              (others=>'1')          when (active = '1' and ((h_cntr_reg < FRAME_WIDTH and not(v_cntr_reg < 0)) and not(pixel_in_box = '1'))) else 
+              (others=>'1')          when (active = '1' and ((h_cntr_reg < FRAME_WIDTH and not(v_cntr_reg < 0)) and not(pixel_in_paddle = '1') and not(pixel_in_paddle2 = '1')  and not(pixel_in_box = '1'))) else 
               (others=>'1')          when (active = '1' and ((not(h_cntr_reg < FRAME_WIDTH) and (v_cntr_reg(8) = '1' and h_cntr_reg(3) = '1')) or
                                            (not(h_cntr_reg < FRAME_WIDTH) and (v_cntr_reg(8) = '0' and v_cntr_reg(3) = '1')))) else
               (others=>'0');  
               
   vga_green <= h_cntr_reg(5 downto 2) when (active = '1' and ((h_cntr_reg < FRAME_WIDTH and v_cntr_reg < 0) and h_cntr_reg(7) = '1')) else
-              (others=>'1')           when (active = '1' and ((h_cntr_reg < FRAME_WIDTH and not(v_cntr_reg < 0)) and not(pixel_in_box = '1'))) else 
+              (others=>'1')           when (active = '1' and ((h_cntr_reg < FRAME_WIDTH and not(v_cntr_reg < 0)) and not(pixel_in_paddle = '1') and not(pixel_in_paddle2 = '1')  and not(pixel_in_box = '1'))) else 
               (others=>'1')           when (active = '1' and ((not(h_cntr_reg < FRAME_WIDTH) and (v_cntr_reg(8) = '1' and h_cntr_reg(3) = '1')) or
                                             (not(h_cntr_reg < FRAME_WIDTH) and (v_cntr_reg(8) = '0' and v_cntr_reg(3) = '1')))) else
               (others=>'0');
@@ -232,13 +252,32 @@ clk_div_inst : clk_wiz_0
     
     -- test
     --test_value <= test_value  + 1;
-    
-    if test_output = 255 then
-        test_output <= (others => '0');
-    else
-        test_output <= test_output + 1;
-    end if;
-    
+      
+      LEDout <= sw;
+      --testOutput <= "0000" & sw;
+--    if test_output = 255 then
+--        test_output <= (others => '0');
+--    else
+--        test_output <= test_output + x"1";
+--    end if;
+    --testOutput <= test_output;
+      if (update_box = '1') then  
+          if btn(0) = '1' then -- paddle 1 move code
+            paddle1_y_reg <= paddle1_y_reg + 1;
+          else if btn(1) = '1' then
+            paddle1_y_reg <= paddle1_y_reg - 1;
+            end if;
+          end if;
+          
+          if btn(2) = '1' then  -- paddle 2 move code
+            paddle12_y_reg <= paddle12_y_reg + 1;
+          else if btn(3) = '1' then
+            paddle12_y_reg <= paddle12_y_reg - 1;
+            end if;
+          end if;
+      end if;
+
+        
       if (update_box = '1') then
         if (box_x_dir = '1') then
           box_x_reg <= box_x_reg + 1;
@@ -253,17 +292,38 @@ clk_div_inst : clk_wiz_0
       end if;
     end if;
   end process;
-      
+  
   process (pxl_clk)
   begin
     if (rising_edge(pxl_clk)) then
       if (update_box = '1') then
-        if ((box_x_dir = '1' and (box_x_reg = BOX_X_MAX - 1)) or (box_x_dir = '0' and (box_x_reg = BOX_X_MIN + 1))) then
+      -- 1 means right, 0 left
+      
+        if (box_x_dir = '1' and (box_x_reg = BOX_X_MAX - 1)) then -- right edge
+            box_x_dir <= not(box_x_dir);
+            P1_score <= P1_score + 1; -- scoring logic
+        end if;
+        
+        if (box_x_dir = '0' and (box_x_reg = BOX_X_MIN + 1)) then -- left edge
           box_x_dir <= not(box_x_dir);
         end if;
+        
+        
+        if (box_x_dir = '1' and (box_x_reg = paddle1_x_reg + PADDLE_WIDTH - 1)) then -- paddle 1 right edge
+            box_x_dir <= not(box_x_dir);
+        end if;
+        
+        if (box_x_dir = '0' and (box_x_reg = paddle12_x_reg + 1)) then -- left edge
+          box_x_dir <= not(box_x_dir);
+        end if;
+        
+        testOutput <= P1_score;
+        
         if ((box_y_dir = '1' and (box_y_reg = BOX_Y_MAX - 1)) or (box_y_dir = '0' and (box_y_reg = BOX_Y_MIN + 1))) then
           box_y_dir <= not(box_y_dir);
         end if;
+        
+        
       end if;
     end if;
   end process;
@@ -286,6 +346,13 @@ clk_div_inst : clk_wiz_0
   pixel_in_box <= '1' when (((h_cntr_reg >= box_x_reg) and (h_cntr_reg < (box_x_reg + BOX_WIDTH))) and
                             ((v_cntr_reg >= box_y_reg) and (v_cntr_reg < (box_y_reg + BOX_WIDTH)))) else
                   '0';           
+  
+  pixel_in_paddle <= '1' when (((h_cntr_reg >= paddle1_x_reg) and (h_cntr_reg < (paddle1_x_reg + PADDLE_WIDTH))) and
+                            ((v_cntr_reg >= paddle1_y_reg) and (v_cntr_reg < (paddle1_y_reg + PADDLE_HEIGHT)))) else
+                  '0'; 
+  pixel_in_paddle2 <= '1' when (((h_cntr_reg >= paddle12_x_reg) and (h_cntr_reg < (paddle12_x_reg + PADDLE_WIDTH))) and
+                            ((v_cntr_reg >= paddle12_y_reg) and (v_cntr_reg < (paddle12_y_reg + PADDLE_HEIGHT)))) else
+                  '0';            
   
  ------------------------------------------------------
  -------         SYNC GENERATION                 ------
@@ -357,5 +424,5 @@ clk_div_inst : clk_wiz_0
   VGA_R <= vga_red_reg;
   VGA_G <= vga_green_reg;
   VGA_B <= vga_blue_reg;
-  testOutput <= test_output;
+--  testOutput <= test_output;
 end Behavioral;

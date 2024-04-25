@@ -2,8 +2,8 @@
 # Vivado v2020.2 (64-bit)
 # SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
 # IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
-# Start of session at: Wed Apr 24 21:31:37 2024
-# Process ID: 21620
+# Start of session at: Thu Apr 25 13:28:02 2024
+# Process ID: 19728
 # Current directory: E:/Github/Zybo7Z20_VGA_PONG/Zybo-Z7-20-Pmod-VGA.runs/synth_1
 # Command line: vivado.exe -log top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top.tcl
 # Log file: E:/Github/Zybo7Z20_VGA_PONG/Zybo-Z7-20-Pmod-VGA.runs/synth_1/top.vds
